@@ -29,68 +29,12 @@
 import Foundation
 import UIKit
 
-protocol BrightnessControllerDelegate: class {
-  func didChange(brightness: CGFloat)
-}
-
-class BrightnessController: UIViewController {
-  
-  @IBOutlet weak private var trackBackground: UIView!
-  @IBOutlet weak private var gradient: GradientView!
-  @IBOutlet weak private var slider: UISlider!
-  
-  weak var delegate: BrightnessControllerDelegate?
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    themeSlider()
+class GradientView: UIView {
+  override class var layerClass: AnyClass {
+    return CAGradientLayer.self
   }
   
-  @IBAction private func brightnessChanged(_ sender: Any) {
-    delegate?.didChange(brightness: brightness)
-  }
-  
-  var brightness: CGFloat {
-    get {
-      return CGFloat(1.0 - slider.value)
-    }
-    set {
-      slider.value = Float(1.0 - newValue)
-    }
-  }
-}
-
-// MARK: Color change
-
-extension BrightnessController {
-  func setColor(_ color: UIColor) {
-    trackBackground.backgroundColor = color
-  }
-}
-
-// MARK: customize appearance
-
-extension BrightnessController {
-  private func themeSlider() {
-    slider.setThumbImage(#imageLiteral(resourceName: "Reticule"), for: .normal)
-    
-    customizeGradient()
-    
-    trackBackground.layer.cornerRadius = 5
-    trackBackground.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
-    trackBackground.layer.borderWidth = 1
-  }
-  
-  private func customizeGradient() {
-    let gradientLayer = gradient.gradientLayer
-    
-    let startColor = UIColor(white: 0, alpha: 0)
-    let endColor = UIColor(white: 0, alpha: 1)
-    
-    gradientLayer.colors = [startColor.cgColor, endColor.cgColor]
-    gradientLayer.locations = [0, 1]
-    gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-    gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+  var gradientLayer: CAGradientLayer {
+    return layer as! CAGradientLayer
   }
 }

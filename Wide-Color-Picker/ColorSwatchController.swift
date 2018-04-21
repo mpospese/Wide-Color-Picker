@@ -48,7 +48,9 @@ class ColorSwatchController: UIViewController {
   @IBOutlet weak private var rgbBlueValueLabel: UILabel!
   
   private var allLabels: [UILabel] {
-    return [p3Label, rgbLabel, p3RedLabel, p3RedValueLabel, rgbRedLabel, rgbRedValueLabel, p3GreenLabel, p3GreenValueLabel, rgbGreenLabel, rgbGreenValueLabel, p3BlueLabel, p3BlueValueLabel, rgbBlueLabel, rgbBlueValueLabel]
+    return [p3Label, rgbLabel, p3RedLabel, p3RedValueLabel, rgbRedLabel, rgbRedValueLabel,
+            p3GreenLabel, p3GreenValueLabel, rgbGreenLabel, rgbGreenValueLabel, p3BlueLabel,
+            p3BlueValueLabel, rgbBlueLabel, rgbBlueValueLabel]
   }
 }
 

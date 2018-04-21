@@ -31,33 +31,32 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  @IBOutlet weak var gamutSelector: UISegmentedControl!
-  @IBOutlet weak var pickerContainer: UIView!
-  @IBOutlet weak var trackBackground: UIView!
-  @IBOutlet weak var gradientContainer: UIView!
-  @IBOutlet weak var slider: UISlider!
-  @IBOutlet weak var swatchContainer: UIView!
+  @IBOutlet weak private var gamutSelector: UISegmentedControl!
+  @IBOutlet weak private var pickerContainer: UIView!
+  @IBOutlet weak private var sliderContainer: UIView!
+  @IBOutlet weak private var swatchContainer: UIView!
   
   var colorWheel: ColorWheelController!
+  var slider: BrightnessController!
   var swatch: ColorSwatchController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    themeSlider()
     configureColorWheel()
+    configureBrightnessSlider()
     configureSwatch()
     
     selectGamut(traitCollection.displayGamut)
-    setColor(UIColor(named: "rwGreen")!)
+    
+    guard let defaultColor = UIColor(named: "rwGreen") else { return }
+    swatch.setColor(defaultColor)
+    updateBrightness(from: defaultColor)
+    slider.setColor(colorWheel.color)
   }
   
-  @IBAction func gamutSelectionChanged(_ sender: Any) {
+  @IBAction private func gamutSelectionChanged(_ sender: Any) {
     setGamut(gamut)
-  }
-  
-  @IBAction func brightnessChanged(_ sender: Any) {
-    setBrightness(brightness)
   }
   
   var gamut: Gamut {
@@ -66,9 +65,6 @@ class ViewController: UIViewController {
     }
     
     return gamut
-  }
-  var brightness: CGFloat {
-    return CGFloat(1.0 - slider.value)
   }
 }
 
@@ -82,15 +78,7 @@ extension ViewController {
   }
   
   func setGamut(_ gamut: Gamut) {
-    colorWheel.gamut = gamut
-  }
-}
-
-// MARK: brightness
-
-extension ViewController {
-  func setBrightness(_ value: CGFloat) {
-    didPick(color: colorWheel.color)
+    colorWheel.setGamut(gamut)
   }
 }
 
@@ -98,15 +86,16 @@ extension ViewController {
 
 extension ViewController: ColorWheelControllerDelegate {
   func didPick(color: UIColor) {
-    updateColor(with: color)
+    slider.setColor(color)
+    updateSwatch(with: color)
   }
   
-  func updateColor(with hueColor: UIColor) {
+  func updateSwatch(with hueColor: UIColor) {
     var hue: CGFloat = 0
     hueColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
     
-    let b = self.brightness
-    let hueBrightnessColor = UIColor(hue: hue, saturation: 1, brightness: b, alpha: 1)
+    let beightness = slider.brightness
+    let hueBrightnessColor = UIColor(hue: hue, saturation: 1, brightness: beightness, alpha: 1)
     var finalColor: UIColor
     
     switch gamut {
@@ -118,70 +107,64 @@ extension ViewController: ColorWheelControllerDelegate {
       finalColor = hueBrightnessColor
     }
     
-    setColor(finalColor, updateBrightness: false)
+    swatch.setColor(finalColor)
+  }
+}
+
+// MARK: Brightness Controller Delegate
+
+extension ViewController: BrightnessControllerDelegate {
+  func didChange(brightness: CGFloat) {
+    updateSwatch(with: colorWheel.color)
   }
   
-  func setColor(_ color: UIColor, updateBrightness: Bool = true) {
-    swatch.setColor(color)
-    
-    if updateBrightness {
-      var brightness: CGFloat = 0
-      if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
-        print("failed to get brightness")
-        return
-      }
-      
-      slider.value = Float(1 - brightness)
+  func updateBrightness(from color: UIColor) {
+    var brightness: CGFloat = 0
+    if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
+      print("failed to get brightness")
+      return
     }
+    
+    slider.brightness = brightness
   }
 }
 
 // MARK: Appearance customization
 
 extension ViewController {
-  private func themeSlider() {
-    slider.setThumbImage(#imageLiteral(resourceName: "Reticule"), for: .normal)
-    
-    buildSliderGradient()
-    
-    trackBackground.layer.cornerRadius = 5
-    trackBackground.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
-    trackBackground.layer.borderWidth = 1
-  }
-  
-  private func buildSliderGradient() {
-    let gradient = CAGradientLayer()
-    
-    gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
-    gradient.locations = [0, 1]
-    gradient.startPoint = CGPoint(x: 0, y: 0.5)
-    gradient.endPoint = CGPoint(x: 1, y: 0.5)
-    gradient.frame = gradientContainer.bounds
-    
-    gradientContainer.layer.addSublayer(gradient)
-  }
-  
   private func configureColorWheel() {
+    let wheel = instantiateViewController(withIdentifier: "ColorWheelController") as! ColorWheelController
+    wheel.delegate = self
+    add(childController: wheel, to: pickerContainer)
     
-    let storyboard = UIStoryboard(name:"Main", bundle: nil)
-    let picker = storyboard.instantiateViewController(withIdentifier: "ColorWheelController") as! ColorWheelController
-    picker.delegate = self
-    addChildViewController(picker)
-    picker.view.frame = pickerContainer.bounds
-    pickerContainer.addSubview(picker.view)
-    picker.didMove(toParentViewController: self)
+    colorWheel = wheel
+  }
+  
+  private func configureBrightnessSlider() {
+    let brightnessSlider = instantiateViewController(withIdentifier: "BrightnessController") as! BrightnessController
+    brightnessSlider.delegate = self
+    add(childController: brightnessSlider, to: sliderContainer)
     
-    colorWheel = picker
+    slider = brightnessSlider
   }
   
   private func configureSwatch() {
-    let storyboard = UIStoryboard(name:"Main", bundle: nil)
-    let colorSwatch = storyboard.instantiateViewController(withIdentifier: "ColorSwatchController") as! ColorSwatchController
-    addChildViewController(colorSwatch)
-    colorSwatch.view.frame = swatchContainer.bounds
-    swatchContainer.addSubview(colorSwatch.view)
-    colorSwatch.didMove(toParentViewController: self)
+    let colorSwatch = instantiateViewController(withIdentifier: "ColorSwatchController") as! ColorSwatchController
+    add(childController: colorSwatch, to: swatchContainer)
     
     swatch = colorSwatch
+  }
+  
+  private func instantiateViewController(withIdentifier identifier: String) -> UIViewController? {
+    let storyboard = UIStoryboard(name:"Main", bundle: nil)
+    return storyboard.instantiateViewController(withIdentifier: identifier)
+  }
+  
+  private func add(childController child: UIViewController, to parentView: UIView) {
+    addChildViewController(child)
+    child.view.frame = parentView.bounds
+    parentView.addSubview(child.view)
+    child.didMove(toParentViewController: self)
+
   }
 }

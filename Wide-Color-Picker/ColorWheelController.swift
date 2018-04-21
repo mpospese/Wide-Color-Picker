@@ -61,15 +61,21 @@ class ColorWheelController: UIViewController {
     moveTo(color: color)
   }
   
-  var gamut: Gamut = .displayP3 {
-    didSet {
-      let traits = UITraitCollection(displayGamut: gamut.displayGamut)
-      wheelImageView.image = UIImage(named: gamut.imageName, in: nil, compatibleWith: traits)
-      didMove(to: colorTargetView.center)
-    }
-  }
+  private var gamut: Gamut = .displayP3
   
   private(set) var color: UIColor = UIColor(named: "rwGreen")!
+}
+
+// MARK: change gamut
+
+extension ColorWheelController {
+  
+  func setGamut(_ gamut: Gamut) {
+    self.gamut = gamut
+    let traits = UITraitCollection(displayGamut: gamut.displayGamut)
+    wheelImageView.image = UIImage(named: gamut.imageName, in: nil, compatibleWith: traits)
+    didMove(to: colorTargetView.center)
+  }
 }
 
 // MARK: conversion between point in circle and color
