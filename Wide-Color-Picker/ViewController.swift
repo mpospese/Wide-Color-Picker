@@ -36,7 +36,7 @@ class ViewController: UIViewController {
   @IBOutlet weak private var sliderContainer: UIView!
   @IBOutlet weak private var swatchContainer: UIView!
   
-  var colorWheel: ColorWheelController!
+  var colorWheel: HueController!
   var slider: BrightnessController!
   var swatch: ColorSwatchController!
   
@@ -49,7 +49,11 @@ class ViewController: UIViewController {
     
     selectGamut(traitCollection.displayGamut)
     
-    guard let defaultColor = UIColor(named: "rwGreen") else { return }
+    guard let defaultColor = UIColor(named: "rwGreen") else {
+      return
+    }
+    
+    colorWheel.setColor(defaultColor)
     swatch.setColor(defaultColor)
     updateBrightness(from: defaultColor)
     slider.setColor(colorWheel.color)
@@ -84,22 +88,23 @@ extension ViewController {
 
 // MARK: Color Wheel Controller Delegate
 
-extension ViewController: ColorWheelControllerDelegate {
-  func didPick(color: UIColor) {
-    slider.setColor(color)
-    updateSwatch(with: color)
+extension ViewController: HueControllerDelegate {
+  func didChange(hue: CGFloat) {
+    slider.setColor(colorWheel.color)
+    updateSwatch()
   }
   
-  func updateSwatch(with hueColor: UIColor) {
-    var hue: CGFloat = 0
-    hueColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-    
-    let beightness = slider.brightness
-    let hueBrightnessColor = UIColor(hue: hue, saturation: 1, brightness: beightness, alpha: 1)
+  func updateSwatch() {
+    // Combine hue from color wheel and brightness from slider to update the
+    // color swatch
+    let hue = colorWheel.hue
+    let brightness = slider.brightness
+    let hueBrightnessColor = UIColor(hue: hue, saturation: 1, brightness: brightness, alpha: 1)
     var finalColor: UIColor
     
     switch gamut {
     case .displayP3:
+      // reassign the RGB values as Display P3 to get the brightess possible colors
       var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
       hueBrightnessColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
       finalColor = UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
@@ -115,16 +120,18 @@ extension ViewController: ColorWheelControllerDelegate {
 
 extension ViewController: BrightnessControllerDelegate {
   func didChange(brightness: CGFloat) {
-    updateSwatch(with: colorWheel.color)
+    updateSwatch()
   }
   
   func updateBrightness(from color: UIColor) {
+    // extract brightness from color
     var brightness: CGFloat = 0
     if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
       print("failed to get brightness")
       return
     }
     
+    // update the slider
     slider.brightness = brightness
   }
 }
@@ -133,9 +140,9 @@ extension ViewController: BrightnessControllerDelegate {
 
 extension ViewController {
   private func configureColorWheel() {
-    let wheel = instantiateViewController(withIdentifier: "ColorWheelController") as! ColorWheelController
+    let wheel = instantiateViewController(withIdentifier: "HueController") as! HueController
     wheel.delegate = self
-    add(childController: wheel, to: pickerContainer)
+    addChildViewController(wheel, to: pickerContainer)
     
     colorWheel = wheel
   }
@@ -143,14 +150,14 @@ extension ViewController {
   private func configureBrightnessSlider() {
     let brightnessSlider = instantiateViewController(withIdentifier: "BrightnessController") as! BrightnessController
     brightnessSlider.delegate = self
-    add(childController: brightnessSlider, to: sliderContainer)
+    addChildViewController(brightnessSlider, to: sliderContainer)
     
     slider = brightnessSlider
   }
   
   private func configureSwatch() {
     let colorSwatch = instantiateViewController(withIdentifier: "ColorSwatchController") as! ColorSwatchController
-    add(childController: colorSwatch, to: swatchContainer)
+    addChildViewController(colorSwatch, to: swatchContainer)
     
     swatch = colorSwatch
   }
@@ -160,11 +167,10 @@ extension ViewController {
     return storyboard.instantiateViewController(withIdentifier: identifier)
   }
   
-  private func add(childController child: UIViewController, to parentView: UIView) {
+  private func addChildViewController(_ child: UIViewController, to parentView: UIView) {
     addChildViewController(child)
     child.view.frame = parentView.bounds
     parentView.addSubview(child.view)
     child.didMove(toParentViewController: self)
-
   }
 }

@@ -6,7 +6,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -84,17 +83,16 @@
                         <outlet property="pickerContainer" destination="r90-eL-T3e" id="dPJ-O4-kgu"/>
                         <outlet property="sliderContainer" destination="UVi-Fs-83p" id="lZW-87-i5F"/>
                         <outlet property="swatchContainer" destination="Dre-Cp-eIX" id="zyD-XV-wUG"/>
-                        <outlet property="swatchImageView" destination="XXg-JT-ca2" id="qfe-JG-x11"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f3t-PR-Va9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-135.19999999999999" y="151.57421289355324"/>
         </scene>
-        <!--Color Wheel Controller-->
+        <!--Hue Controller-->
         <scene sceneID="5nv-zW-UuX">
             <objects>
-                <viewController storyboardIdentifier="ColorWheelController" id="p5N-Ye-hGz" customClass="ColorWheelController" customModule="Wide_Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HueController" id="p5N-Ye-hGz" customClass="HueController" customModule="Wide_Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kfo-yf-tFE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -134,10 +132,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XXg-JT-ca2">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                                <color key="backgroundColor" name="rwGreen"/>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9AJ-uW-BJA">
                                 <rect key="frame" x="44.5" y="258.5" width="231.5" height="51"/>
                                 <subviews>
@@ -280,15 +274,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="XXg-JT-ca2" firstAttribute="leading" secondItem="m97-Us-aQx" secondAttribute="leading" id="Iud-Et-zkb"/>
                             <constraint firstItem="m97-Us-aQx" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="9AJ-uW-BJA" secondAttribute="bottom" constant="10" id="LPC-lo-aMf"/>
-                            <constraint firstItem="m97-Us-aQx" firstAttribute="bottom" secondItem="XXg-JT-ca2" secondAttribute="bottom" id="RrB-qV-dXr"/>
                             <constraint firstItem="9AJ-uW-BJA" firstAttribute="centerY" secondItem="83X-5w-rbo" secondAttribute="centerY" id="Ruq-oT-M4K"/>
                             <constraint firstItem="9AJ-uW-BJA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="m97-Us-aQx" secondAttribute="top" constant="10" id="XJM-xa-34D"/>
                             <constraint firstItem="9AJ-uW-BJA" firstAttribute="centerX" secondItem="83X-5w-rbo" secondAttribute="centerX" id="bZm-RG-jpe"/>
-                            <constraint firstItem="XXg-JT-ca2" firstAttribute="top" secondItem="m97-Us-aQx" secondAttribute="top" id="k2R-P3-2xx"/>
                             <constraint firstItem="m97-Us-aQx" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9AJ-uW-BJA" secondAttribute="trailing" constant="10" id="obm-Ky-Zfk"/>
-                            <constraint firstItem="XXg-JT-ca2" firstAttribute="trailing" secondItem="m97-Us-aQx" secondAttribute="trailing" id="ryC-ZL-2hj"/>
                             <constraint firstItem="9AJ-uW-BJA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m97-Us-aQx" secondAttribute="leading" constant="10" id="uFK-9p-u9x"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m97-Us-aQx"/>
@@ -308,7 +298,6 @@
                         <outlet property="rgbLabel" destination="fFr-9l-8Zz" id="hX2-yP-32a"/>
                         <outlet property="rgbRedLabel" destination="sW9-WA-DrI" id="XBb-uR-ROe"/>
                         <outlet property="rgbRedValueLabel" destination="znl-cU-aZl" id="SGP-RF-x7j"/>
-                        <outlet property="swatchImageView" destination="XXg-JT-ca2" id="f0T-zy-LGY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGf-dy-mRS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -414,9 +403,6 @@
     </scenes>
     <resources>
         <image name="Color_Wheel" width="326" height="326"/>
-        <namedColor name="rwGreen">
-            <color red="0.0" green="0.40799999237060547" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
     <color key="tintColor" name="rwGreen"/>
 </document>

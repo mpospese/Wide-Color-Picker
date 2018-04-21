@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5C2901831F8F6DE700803663 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2901821F8F6DE700803663 /* LaunchScreen.storyboard */; };
 		807F14C6208B28F400D5142A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807F14C5208B28F400D5142A /* ViewController.swift */; };
-		807F14C8208B5EB900D5142A /* ColorWheelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807F14C7208B5EB900D5142A /* ColorWheelController.swift */; };
+		807F14C8208B5EB900D5142A /* HueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807F14C7208B5EB900D5142A /* HueController.swift */; };
 		807F14CA208B604400D5142A /* Gamut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807F14C9208B604400D5142A /* Gamut.swift */; };
 		80AE3154208BAB47004BF35F /* ColorSwatchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE3153208BAB47004BF35F /* ColorSwatchController.swift */; };
 		80BC6941208BBB8C003E90F3 /* BrightnessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BC6940208BBB8C003E90F3 /* BrightnessController.swift */; };
@@ -22,7 +22,7 @@
 /* Begin PBXFileReference section */
 		5C2901821F8F6DE700803663 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		807F14C5208B28F400D5142A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		807F14C7208B5EB900D5142A /* ColorWheelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWheelController.swift; sourceTree = "<group>"; };
+		807F14C7208B5EB900D5142A /* HueController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueController.swift; sourceTree = "<group>"; };
 		807F14C9208B604400D5142A /* Gamut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gamut.swift; sourceTree = "<group>"; };
 		80AE3153208BAB47004BF35F /* ColorSwatchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchController.swift; sourceTree = "<group>"; };
 		80BC6940208BBB8C003E90F3 /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 				D2A5F20F1F4A9144005CD714 /* Info.plist */,
 				807F14C9208B604400D5142A /* Gamut.swift */,
 				807F14C5208B28F400D5142A /* ViewController.swift */,
-				807F14C7208B5EB900D5142A /* ColorWheelController.swift */,
+				807F14C7208B5EB900D5142A /* HueController.swift */,
 				80BC6940208BBB8C003E90F3 /* BrightnessController.swift */,
 				80AE3153208BAB47004BF35F /* ColorSwatchController.swift */,
 				80BC6942208BC88D003E90F3 /* GradientView.swift */,
@@ -158,7 +158,7 @@
 				80BC6941208BBB8C003E90F3 /* BrightnessController.swift in Sources */,
 				807F14C6208B28F400D5142A /* ViewController.swift in Sources */,
 				80BC6943208BC88D003E90F3 /* GradientView.swift in Sources */,
-				807F14C8208B5EB900D5142A /* ColorWheelController.swift in Sources */,
+				807F14C8208B5EB900D5142A /* HueController.swift in Sources */,
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

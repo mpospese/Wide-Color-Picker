@@ -31,7 +31,6 @@ import UIKit
 
 class ColorSwatchController: UIViewController {
   
-  @IBOutlet weak private var swatchImageView: UIImageView!
   @IBOutlet weak private var p3Label: UILabel!
   @IBOutlet weak private var rgbLabel: UILabel!
   @IBOutlet weak private var p3RedLabel: UILabel!
@@ -58,7 +57,7 @@ class ColorSwatchController: UIViewController {
 
 extension ColorSwatchController {
   func setColor(_ color: UIColor) {
-    swatchImageView.backgroundColor = color
+    view.backgroundColor = color
     
     displayP3Values(for: color)
     displayRGBValues(for: color)

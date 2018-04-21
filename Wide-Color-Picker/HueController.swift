@@ -38,16 +38,16 @@ extension Gamut {
   }
 }
 
-protocol ColorWheelControllerDelegate: class {
-  func didPick(color: UIColor)
+protocol HueControllerDelegate: class {
+  func didChange(hue: CGFloat)
 }
 
-class ColorWheelController: UIViewController {
+class HueController: UIViewController {
   
   @IBOutlet weak private var wheelImageView: UIImageView!
   private let colorTargetView = UIImageView(image: #imageLiteral(resourceName: "Reticule"))
   
-  weak var delegate: ColorWheelControllerDelegate?  
+  weak var delegate: HueControllerDelegate?  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,17 +58,19 @@ class ColorWheelController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    moveTo(color: color)
+    moveTargetTo(color: color)
   }
   
   private var gamut: Gamut = .displayP3
   
-  private(set) var color: UIColor = UIColor(named: "rwGreen")!
+  private(set) var hue: CGFloat = 0
+  
+  private(set) var color: UIColor = .red
 }
 
 // MARK: change gamut
 
-extension ColorWheelController {
+extension HueController {
   
   func setGamut(_ gamut: Gamut) {
     self.gamut = gamut
@@ -78,9 +80,18 @@ extension ColorWheelController {
   }
 }
 
+// MARK: Color change
+
+extension HueController {
+  func setColor(_ color: UIColor) {
+    self.color = color
+    moveTargetTo(color: color)
+  }
+}
+
 // MARK: conversion between point in circle and color
 
-extension ColorWheelController {
+extension HueController {
   
   private func didMove(to point: CGPoint) {
     
@@ -102,11 +113,11 @@ extension ColorWheelController {
     
     colorTargetView.center = position
     
-    color = colorFrom(point: position)
-    delegate?.didPick(color: color)
+    updateColorFrom(point: position)
+    delegate?.didChange(hue: hue)
   }
   
-  private func colorFrom(point: CGPoint) -> UIColor {
+  private func updateColorFrom(point: CGPoint) {
     
     let center = wheelImageView.center
     
@@ -118,7 +129,7 @@ extension ColorWheelController {
     // convert to a value between 0 and 2*pi
     let angle = atan >= 0 ? atan : (atan + (2 * CGFloat.pi))
     
-    let hue = 1 - (angle / (2 * CGFloat.pi))
+    self.hue = 1 - (angle / (2 * CGFloat.pi))
     
     let hsbColor = UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1)
     
@@ -126,12 +137,14 @@ extension ColorWheelController {
     hsbColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
     
     switch gamut {
-    case .displayP3: return UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
-    case .sRGB: return UIColor(red: red, green: green, blue: blue, alpha: 1)
+    case .displayP3:
+      self.color = UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
+    case .sRGB:
+      self.color = UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
   }
   
-  private func moveTo(color: UIColor) {
+  private func moveTargetTo(color: UIColor) {
     colorTargetView.center = positionFrom(color: color)
   }
   
@@ -153,7 +166,7 @@ extension ColorWheelController {
 
 // MARK: Touch-based event handling
 
-extension ColorWheelController {
+extension HueController {
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches {
