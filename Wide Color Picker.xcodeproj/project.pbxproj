@@ -27,6 +27,10 @@
 		80AE3153208BAB47004BF35F /* ColorSwatchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchController.swift; sourceTree = "<group>"; };
 		80BC6940208BBB8C003E90F3 /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
 		80BC6942208BC88D003E90F3 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		80C4AB94208BED860011A6E2 /* Color_Wheel_P3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Color_Wheel_P3@3x.png"; path = "Resources/Color_Wheel_P3@3x.png"; sourceTree = SOURCE_ROOT; };
+		80C4AB95208BED860011A6E2 /* Color_Wheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Color_Wheel@2x.png"; path = "Resources/Color_Wheel@2x.png"; sourceTree = SOURCE_ROOT; };
+		80C4AB96208BED860011A6E2 /* Color_Wheel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Color_Wheel@3x.png"; path = "Resources/Color_Wheel@3x.png"; sourceTree = SOURCE_ROOT; };
+		80C4AB97208BED860011A6E2 /* Color_Wheel_P3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Color_Wheel_P3@2x.png"; path = "Resources/Color_Wheel_P3@2x.png"; sourceTree = SOURCE_ROOT; };
 		D2A5F2001F4A9144005CD714 /* Wide Color Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wide Color Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2A5F2081F4A9144005CD714 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,6 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80C4AB93208BED0A0011A6E2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				80C4AB97208BED860011A6E2 /* Color_Wheel_P3@2x.png */,
+				80C4AB94208BED860011A6E2 /* Color_Wheel_P3@3x.png */,
+				80C4AB95208BED860011A6E2 /* Color_Wheel@2x.png */,
+				80C4AB96208BED860011A6E2 /* Color_Wheel@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D2A5F1F71F4A9143005CD714 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +92,7 @@
 				80BC6940208BBB8C003E90F3 /* BrightnessController.swift */,
 				80AE3153208BAB47004BF35F /* ColorSwatchController.swift */,
 				80BC6942208BC88D003E90F3 /* GradientView.swift */,
+				80C4AB93208BED0A0011A6E2 /* Resources */,
 			);
 			path = "Wide-Color-Picker";
 			sourceTree = "<group>";
