@@ -44,10 +44,10 @@ protocol ColorWheelControllerDelegate: class {
 
 class ColorWheelController: UIViewController {
   
-  @IBOutlet weak var wheelImageView: UIImageView!
-  weak var delegate: ColorWheelControllerDelegate?
-  
-  let colorTargetView = UIImageView(image: #imageLiteral(resourceName: "Reticule"))
+  @IBOutlet weak private var wheelImageView: UIImageView!
+  private let colorTargetView = UIImageView(image: #imageLiteral(resourceName: "Reticule"))
+
+  weak var delegate: ColorWheelControllerDelegate?  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -65,16 +65,18 @@ class ColorWheelController: UIViewController {
     didSet {
       let traits = UITraitCollection(displayGamut: gamut.displayGamut)
       wheelImageView.image = UIImage(named: gamut.imageName, in: nil, compatibleWith: traits)
-      moveTo(colorTargetView.center)
+      didMove(to: colorTargetView.center)
     }
   }
   
   private(set) var color: UIColor = UIColor(named: "rwGreen")!
 }
 
+// MARK: conversion between point in circle and color
+
 extension ColorWheelController {
   
-  func moveTo(_ point: CGPoint) {
+  private func didMove(to point: CGPoint) {
     
     let center = wheelImageView.center
     let radius = min (wheelImageView.bounds.width / 2, wheelImageView.bounds.height / 2)
@@ -98,7 +100,7 @@ extension ColorWheelController {
     delegate?.didPick(color: color)
   }
   
-  func colorFrom(point: CGPoint) -> UIColor {
+  private func colorFrom(point: CGPoint) -> UIColor {
     
     let center = wheelImageView.center
     
@@ -123,11 +125,11 @@ extension ColorWheelController {
     }
   }
   
-  func moveTo(color: UIColor) {
+  private func moveTo(color: UIColor) {
     colorTargetView.center = positionFrom(color: color)
   }
   
-  func positionFrom(color: UIColor) -> CGPoint {
+  private func positionFrom(color: UIColor) -> CGPoint {
     var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0
     color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
     
@@ -144,26 +146,20 @@ extension ColorWheelController {
 }
 
 // MARK: Touch-based event handling
+
 extension ColorWheelController {
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches {
-      moveTo(t.location(in: view))
+      didMove(to: t.location(in: view))
       break
     }
   }
   
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches {
-      moveTo(t.location(in: view))
+      didMove(to: t.location(in: view))
       break
     }
   }
-  
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-  }
-  
-  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-  }
-  
 }
