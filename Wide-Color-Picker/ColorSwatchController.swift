@@ -101,7 +101,9 @@ extension ColorSwatchController {
   
   private func updateTextColor(for color: UIColor) {
     var brightness: CGFloat = 0
-    guard color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == true else { return }
+    guard color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == true else {
+      return
+    }
     
     let white = CGFloat(brightness > 0.5 ? 0.0 : 1.0)
     let alpha = brightness > 0.5 ? brightness : (1 - brightness)

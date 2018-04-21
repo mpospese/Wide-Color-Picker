@@ -46,7 +46,7 @@ class ColorWheelController: UIViewController {
   
   @IBOutlet weak private var wheelImageView: UIImageView!
   private let colorTargetView = UIImageView(image: #imageLiteral(resourceName: "Reticule"))
-
+  
   weak var delegate: ColorWheelControllerDelegate?  
   
   override func viewDidLoad() {

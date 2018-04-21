@@ -100,7 +100,7 @@ extension BrightnessController {
       color.set()
       renderContext.fill(bounds)
     }
-
+    
     return image
   }
 }
