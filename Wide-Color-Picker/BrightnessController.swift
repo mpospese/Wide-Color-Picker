@@ -36,6 +36,7 @@ protocol BrightnessControllerDelegate: class {
 class BrightnessController: UIViewController {
   
   @IBOutlet weak private var trackBackground: UIView!
+  @IBOutlet weak private var renderView: UIImageView!
   @IBOutlet weak private var gradient: GradientView!
   @IBOutlet weak private var slider: UISlider!
   
@@ -65,7 +66,42 @@ class BrightnessController: UIViewController {
 
 extension BrightnessController {
   func setColor(_ color: UIColor) {
-    trackBackground.backgroundColor = color
+    renderColor(color)
+  }
+}
+
+// MARK: Image rendering
+
+extension BrightnessController {
+  func renderColor(_ color: UIColor) {
+    
+    let size = renderView.bounds.size
+    
+    DispatchQueue.global().async { [weak self] in
+      guard let strongSelf = self else {
+        return
+      }
+      let image = strongSelf.image(for: color, withSize: size)
+      
+      DispatchQueue.main.async { [weak self] in
+        guard let strongSelf = self else {
+          return
+        }
+        strongSelf.renderView.image = image
+      }
+    }
+  }
+  
+  func image(for color: UIColor, withSize size: CGSize) -> UIImage {
+    let renderer = UIGraphicsImageRenderer(size: size)
+    
+    let image = renderer.image { (renderContext) in
+      let bounds = renderContext.format.bounds
+      color.set()
+      renderContext.fill(bounds)
+    }
+
+    return image
   }
 }
 

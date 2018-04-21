@@ -329,6 +329,9 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKn-sk-tXu" userLabel="Track_Background">
                                         <rect key="frame" x="0.0" y="264" width="232" height="20"/>
                                         <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F9j-le-FTT">
+                                                <rect key="frame" x="0.0" y="0.0" width="232" height="20"/>
+                                            </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ko-jR-EHW" userLabel="Track_Background_Left">
                                                 <rect key="frame" x="0.0" y="0.0" width="22" height="20"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -350,7 +353,9 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="fxO-fK-wAa" firstAttribute="leading" secondItem="2Ko-jR-EHW" secondAttribute="trailing" id="6k7-9w-113"/>
+                                            <constraint firstAttribute="trailing" secondItem="F9j-le-FTT" secondAttribute="trailing" id="CB5-NJ-tpK"/>
                                             <constraint firstItem="838-nv-cm5" firstAttribute="top" secondItem="PKn-sk-tXu" secondAttribute="top" id="EtQ-fl-mb9"/>
+                                            <constraint firstItem="F9j-le-FTT" firstAttribute="leading" secondItem="PKn-sk-tXu" secondAttribute="leading" id="GeQ-Dp-HzX"/>
                                             <constraint firstAttribute="trailing" secondItem="838-nv-cm5" secondAttribute="trailing" id="INV-5t-wI7"/>
                                             <constraint firstAttribute="height" constant="20" id="LO9-gx-mA0"/>
                                             <constraint firstItem="fxO-fK-wAa" firstAttribute="top" secondItem="PKn-sk-tXu" secondAttribute="top" id="PHF-wt-Pyv"/>
@@ -359,7 +364,9 @@
                                             <constraint firstItem="2Ko-jR-EHW" firstAttribute="top" secondItem="PKn-sk-tXu" secondAttribute="top" id="Zfe-gs-ugf"/>
                                             <constraint firstAttribute="bottom" secondItem="fxO-fK-wAa" secondAttribute="bottom" id="a82-RU-rd6"/>
                                             <constraint firstItem="838-nv-cm5" firstAttribute="leading" secondItem="fxO-fK-wAa" secondAttribute="trailing" id="jmG-kn-cXW"/>
+                                            <constraint firstItem="F9j-le-FTT" firstAttribute="top" secondItem="PKn-sk-tXu" secondAttribute="top" id="utI-Uc-xlY"/>
                                             <constraint firstAttribute="bottom" secondItem="838-nv-cm5" secondAttribute="bottom" id="vNL-kA-jEY"/>
+                                            <constraint firstAttribute="bottom" secondItem="F9j-le-FTT" secondAttribute="bottom" id="ydg-q0-jaT"/>
                                         </constraints>
                                     </view>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9f0-FC-hsp">
@@ -395,6 +402,7 @@
                     </view>
                     <connections>
                         <outlet property="gradient" destination="fxO-fK-wAa" id="IIQ-FK-G04"/>
+                        <outlet property="renderView" destination="F9j-le-FTT" id="Cxw-ws-TT0"/>
                         <outlet property="slider" destination="9f0-FC-hsp" id="hf3-i5-rhc"/>
                         <outlet property="trackBackground" destination="PKn-sk-tXu" id="277-ua-zJ7"/>
                     </connections>
