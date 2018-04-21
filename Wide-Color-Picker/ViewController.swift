@@ -31,7 +31,6 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  @IBOutlet weak private var gamutSelector: UISegmentedControl!
   @IBOutlet weak private var pickerContainer: UIView!
   @IBOutlet weak private var sliderContainer: UIView!
   @IBOutlet weak private var swatchContainer: UIView!
@@ -47,45 +46,15 @@ class ViewController: UIViewController {
     configureBrightnessSlider()
     configureSwatch()
     
-    selectGamut(traitCollection.displayGamut)
-    
-    guard let defaultColor = UIColor(named: "rwGreen") else {
-      return
-    }
+    let defaultColor = UIColor.green
     
     colorWheel.setColor(defaultColor)
     swatch.setColor(defaultColor)
     slider.updateBrightness(from: defaultColor)
     slider.setColor(colorWheel.color)
   }
-  
-  @IBAction private func gamutSelectionChanged(_ sender: Any) {
-    setGamut(gamut)
-  }
-  
-  var gamut: Gamut {
-    guard let gamut = Gamut(rawValue: gamutSelector.selectedSegmentIndex) else {
-      return .displayP3
-    }
-    
-    return gamut
-  }
 }
-
-// MARK: Gamut Selector
-extension ViewController {
   
-  func selectGamut(_ displayGamut: UIDisplayGamut) {
-    let gamut = Gamut.from(displayGamut: displayGamut)
-    gamutSelector.selectedSegmentIndex = gamut.rawValue
-    setGamut(gamut)
-  }
-  
-  func setGamut(_ gamut: Gamut) {
-    colorWheel.setGamut(gamut)
-  }
-}
-
 // MARK: Color Wheel Controller Delegate
 
 extension ViewController: HueControllerDelegate {
@@ -100,19 +69,8 @@ extension ViewController: HueControllerDelegate {
     let hue = colorWheel.hue
     let brightness = slider.brightness
     let hueBrightnessColor = UIColor(hue: hue, saturation: 1, brightness: brightness, alpha: 1)
-    var finalColor: UIColor
     
-    switch gamut {
-    case .displayP3:
-      // reassign the RGB values as Display P3 to get the brightest possible colors
-      var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
-      hueBrightnessColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
-      finalColor = UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
-    case .sRGB:
-      finalColor = hueBrightnessColor
-    }
-    
-    swatch.setColor(finalColor)
+    swatch.setColor(hueBrightnessColor)
   }
 }
 

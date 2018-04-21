@@ -70,23 +70,8 @@ extension ColorSwatchController {
 extension ColorSwatchController {
   private func displayP3Values(for color: UIColor) {
     
-    // UIColors are in sRGB color space and expressed in extended sRGB even if they were created
-    // with UIColor.init(displayP3Red:green:blue:alpha:)
-    
-    // Convert color to P3 color space
-    guard let colorSpaceP3 = CGColorSpace(name: CGColorSpace.displayP3),
-      let cgP3Color = color.cgColor.converted(to: colorSpaceP3, intent: .defaultIntent, options: nil),
-      let components = cgP3Color.components,
-      components.count >= 3 else {
-        p3RedValueLabel.text = nil
-        p3GreenValueLabel.text = nil
-        p3BlueValueLabel.text = nil
-        return
-    }
-    
-    p3RedValueLabel.text = String(format: "%.02f", components[0])
-    p3GreenValueLabel.text = String(format: "%.02f", components[1])
-    p3BlueValueLabel.text = String(format: "%.02f", components[2])
+    // Placeholder for future code
+
   }
   
   private func displayRGBValues(for color: UIColor) {

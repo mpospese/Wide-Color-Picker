@@ -116,15 +116,18 @@ extension BrightnessController {
   }
   
   func image(for color: UIColor, withSize size: CGSize) -> UIImage {
-    let renderer = UIGraphicsImageRenderer(size: size)
+    let bounds = CGRect(origin: CGPoint.zero, size: size)
+    UIGraphicsBeginImageContextWithOptions(size, false, 0)
+    let context = UIGraphicsGetCurrentContext()
+    color.set()
+    context?.fill(bounds)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
     
-    let image = renderer.image { (renderContext) in
-      let bounds = renderContext.format.bounds
-      color.set()
-      renderContext.fill(bounds)
+    guard let validImage = image else {
+      fatalError("this should never happen")
     }
-    
-    return image
+    return validImage
   }
 }
 

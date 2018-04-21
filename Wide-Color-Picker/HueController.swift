@@ -29,15 +29,6 @@
 import Foundation
 import UIKit
 
-extension Gamut {
-  var imageName: String {
-    switch self {
-    case .displayP3: return "Color_Wheel"
-    case .sRGB: return "Color_Wheel_SRGB"
-    }
-  }
-}
-
 protocol HueControllerDelegate: class {
   func didChange(hue: CGFloat)
 }
@@ -61,23 +52,9 @@ class HueController: UIViewController {
     moveTargetTo(color: color)
   }
   
-  private var gamut: Gamut = .displayP3
-  
   private(set) var hue: CGFloat = 0
   
   private(set) var color: UIColor = .red
-}
-
-// MARK: change gamut
-
-extension HueController {
-  
-  func setGamut(_ gamut: Gamut) {
-    self.gamut = gamut
-    let traits = UITraitCollection(displayGamut: gamut.displayGamut)
-    wheelImageView.image = UIImage(named: gamut.imageName, in: nil, compatibleWith: traits)
-    didMove(to: colorTargetView.center)
-  }
 }
 
 // MARK: Color change
@@ -137,12 +114,7 @@ extension HueController {
     var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
     hsbColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
     
-    switch gamut {
-    case .displayP3:
-      self.color = UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
-    case .sRGB:
-      self.color = UIColor(red: red, green: green, blue: blue, alpha: 1)
-    }
+    self.color = UIColor(red: red, green: green, blue: blue, alpha: 1)
   }
   
   private func moveTargetTo(color: UIColor) {
@@ -153,16 +125,7 @@ extension HueController {
     // extract hue from color
     var hue: CGFloat = 0
     if color.getHue(&hue, saturation: nil, brightness: nil, alpha: nil) == false {
-      // Color space was not compatible, so let's convert to extended SRGB,
-      // which is compatible
-      if let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB),
-        let convertedCGColor = color.cgColor.converted(to: colorSpace, intent: .defaultIntent, options: nil) {
-        let extendedSRGBColor = UIColor(cgColor: convertedCGColor)
-        // Try again with our extended SRGB color
-        if extendedSRGBColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil) == false {
-          print("Hue Controller failed to get hue")
-        }
-      }
+      print("Hue Controller failed to get hue")
     }
     
     let angle = (1 - hue) * (2 * CGFloat.pi)
