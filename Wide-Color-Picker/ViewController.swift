@@ -36,25 +36,17 @@ class ViewController: UIViewController {
   @IBOutlet weak var trackBackground: UIView!
   @IBOutlet weak var gradientContainer: UIView!
   @IBOutlet weak var slider: UISlider!
-  @IBOutlet weak var swatchImageView: UIImageView!
-  @IBOutlet weak var p3RedLabel: UILabel!
-  @IBOutlet weak var rgbRedLabel: UILabel!
-  @IBOutlet weak var p3GreenLabel: UILabel!
-  @IBOutlet weak var rgbGreenLabel: UILabel!
-  @IBOutlet weak var p3BlueLabel: UILabel!
-  @IBOutlet weak var rgbBlueLabel: UILabel!
+  @IBOutlet weak var swatchContainer: UIView!
   
   var colorWheel: ColorWheelController!
-  let formatter = NumberFormatter()
+  var swatch: ColorSwatchController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    formatter.minimumFractionDigits = 2
-    formatter.maximumFractionDigits = 2
-    
     themeSlider()
-    configureColorPicker()
+    configureColorWheel()
+    configureSwatch()
     
     selectGamut(traitCollection.displayGamut)
     setColor(UIColor(named: "rwGreen")!)
@@ -97,9 +89,9 @@ extension ViewController {
 // MARK: brightness
 
 extension ViewController {
-    func setBrightness(_ value: CGFloat) {
-        didPick(color: colorWheel.color)
-    }
+  func setBrightness(_ value: CGFloat) {
+    didPick(color: colorWheel.color)
+  }
 }
 
 // MARK: Color Wheel Controller Delegate
@@ -130,10 +122,7 @@ extension ViewController: ColorWheelControllerDelegate {
   }
   
   func setColor(_ color: UIColor, updateBrightness: Bool = true) {
-    swatchImageView.backgroundColor = color
-    
-    displayP3Values(for: color)
-    displayRGBValues(for: color)
+    swatch.setColor(color)
     
     if updateBrightness {
       var brightness: CGFloat = 0
@@ -144,36 +133,6 @@ extension ViewController: ColorWheelControllerDelegate {
       
       slider.value = Float(1 - brightness)
     }
-  }
-  
-  func displayP3Values(for color: UIColor) {
-    
-    // UIColors are in sRGB color space and expressed in extended sRGB even if they were created
-    // with UIColor.init(displayP3Red:green:blue:alpha:)
-    
-    // Convert color to P3 color space
-    guard let colorSpaceP3 = CGColorSpace(name: CGColorSpace.displayP3),
-      let cgP3Color = color.cgColor.converted(to: colorSpaceP3, intent: .defaultIntent, options: nil),
-      let components = cgP3Color.components,
-      components.count >= 3 else {
-        p3RedLabel.text = nil
-        p3GreenLabel.text = nil
-        p3BlueLabel.text = nil
-        return
-    }
-    
-    p3RedLabel.text = String(format: "%.02f", components[0])
-    p3GreenLabel.text = String(format: "%.02f", components[1])
-    p3BlueLabel.text = String(format: "%.02f", components[2])
-  }
-  
-  func displayRGBValues(for color: UIColor) {
-    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
-    color.getRed(&red, green: &green, blue: &blue, alpha: nil)
-    
-    rgbRedLabel.text = String(format: "%.02f", red)
-    rgbGreenLabel.text = String(format: "%.02f", green)
-    rgbBlueLabel.text = String(format: "%.02f", blue)
   }
 }
 
@@ -202,7 +161,7 @@ extension ViewController {
     gradientContainer.layer.addSublayer(gradient)
   }
   
-  private func configureColorPicker() {
+  private func configureColorWheel() {
     
     let storyboard = UIStoryboard(name:"Main", bundle: nil)
     let picker = storyboard.instantiateViewController(withIdentifier: "ColorWheelController") as! ColorWheelController
@@ -213,5 +172,16 @@ extension ViewController {
     picker.didMove(toParentViewController: self)
     
     colorWheel = picker
+  }
+  
+  private func configureSwatch() {
+    let storyboard = UIStoryboard(name:"Main", bundle: nil)
+    let colorSwatch = storyboard.instantiateViewController(withIdentifier: "ColorSwatchController") as! ColorSwatchController
+    addChildViewController(colorSwatch)
+    colorSwatch.view.frame = swatchContainer.bounds
+    swatchContainer.addSubview(colorSwatch.view)
+    colorSwatch.didMove(toParentViewController: self)
+    
+    swatch = colorSwatch
   }
 }

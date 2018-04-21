@@ -88,8 +88,8 @@ extension ColorWheelController {
     if distance > radius {
       // If touch is outside of the color wheel,
       // move it to the closest point along the circumference
-      position.x = center.x + (xOffset * (radius / distance));
-      position.y = center.y + (yOffset * (radius / distance));
+      position.x = center.x + (xOffset * (radius / distance))
+      position.y = center.y + (yOffset * (radius / distance))
     }
     
     colorTargetView.center = position
@@ -104,14 +104,14 @@ extension ColorWheelController {
     
     let xOffset = point.x - center.x
     let yOffset = point.y - center.y
-
+    
     // atan returns values between -pi and +pi
     let atan = atan2(yOffset, xOffset)
     // convert to a value between 0 and 2*pi
     let angle = atan >= 0 ? atan : (atan + (2 * CGFloat.pi))
     
     let hue = 1 - (angle / (2 * CGFloat.pi))
- 
+    
     let hsbColor = UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1)
     
     var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
