@@ -55,7 +55,7 @@ class ColorSwatchController: UIViewController {
 // MARK: set color
 
 extension ColorSwatchController {
-  func setColor(_ color: UIColor, updateBrightness: Bool = true) {
+  func setColor(_ color: UIColor) {
     swatchImageView.backgroundColor = color
     
     displayP3Values(for: color)
