@@ -86,6 +86,7 @@ extension HueController {
   func setColor(_ color: UIColor) {
     self.color = color
     moveTargetTo(color: color)
+    updateColorFrom(point: self.colorTargetView.center)
   }
 }
 
