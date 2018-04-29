@@ -31,25 +31,25 @@ import UIKit
 
 class ColorSwatchController: UIViewController {
   
-  @IBOutlet weak private var p3Label: UILabel!
   @IBOutlet weak private var rgbLabel: UILabel!
-  @IBOutlet weak private var p3RedLabel: UILabel!
-  @IBOutlet weak private var p3RedValueLabel: UILabel!
   @IBOutlet weak private var rgbRedLabel: UILabel!
   @IBOutlet weak private var rgbRedValueLabel: UILabel!
-  @IBOutlet weak private var p3GreenLabel: UILabel!
-  @IBOutlet weak private var p3GreenValueLabel: UILabel!
   @IBOutlet weak private var rgbGreenLabel: UILabel!
   @IBOutlet weak private var rgbGreenValueLabel: UILabel!
-  @IBOutlet weak private var p3BlueLabel: UILabel!
-  @IBOutlet weak private var p3BlueValueLabel: UILabel!
   @IBOutlet weak private var rgbBlueLabel: UILabel!
   @IBOutlet weak private var rgbBlueValueLabel: UILabel!
+
+  @IBOutlet weak private var p3Label: UILabel!
+  @IBOutlet weak private var p3RedLabel: UILabel!
+  @IBOutlet weak private var p3RedValueLabel: UILabel!
+  @IBOutlet weak private var p3GreenLabel: UILabel!
+  @IBOutlet weak private var p3GreenValueLabel: UILabel!
+  @IBOutlet weak private var p3BlueLabel: UILabel!
+  @IBOutlet weak private var p3BlueValueLabel: UILabel!
   
   private var allLabels: [UILabel] {
-    return [p3Label, rgbLabel, p3RedLabel, p3RedValueLabel, rgbRedLabel, rgbRedValueLabel,
-            p3GreenLabel, p3GreenValueLabel, rgbGreenLabel, rgbGreenValueLabel, p3BlueLabel,
-            p3BlueValueLabel, rgbBlueLabel, rgbBlueValueLabel]
+    return [rgbLabel, rgbRedLabel, rgbRedValueLabel, rgbGreenLabel, rgbGreenValueLabel, rgbBlueLabel, rgbBlueValueLabel,
+            p3Label, p3RedLabel, p3RedValueLabel, p3GreenLabel, p3GreenValueLabel, p3BlueLabel, p3BlueValueLabel]
   }
 }
 
