@@ -99,11 +99,26 @@ extension ColorSwatchController {
   }
   
   private func updateTextColor(for color: UIColor) {
+    // extract brightness from color
     var brightness: CGFloat = 0
-    guard color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == true else {
-      return
+    if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
+      // Color space was not compatible, so let's convert to extended SRGB,
+      // which is compatible
+      guard let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB),
+        let convertedCGColor = color.cgColor.converted(to: colorSpace, intent: .defaultIntent, options: nil) else {
+          return
+      }
+      
+      let extendedSRGBColor = UIColor(cgColor: convertedCGColor)
+      // Try again with our extended SRGB color
+      if extendedSRGBColor.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
+        print("Color Swatch failed to get brightness")
+        return
+      }
     }
-    
+
+    // Use black text against bright background,
+    // use white text against dim background
     let white = CGFloat(brightness > 0.5 ? 0.0 : 1.0)
     let alpha = brightness > 0.5 ? brightness : (1 - brightness)
     let textColor: UIColor = UIColor(white: white, alpha: alpha)

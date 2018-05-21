@@ -55,7 +55,7 @@ class ViewController: UIViewController {
     
     colorWheel.setColor(defaultColor)
     swatch.setColor(defaultColor)
-    updateBrightness(from: defaultColor)
+    slider.updateBrightness(from: defaultColor)
     slider.setColor(colorWheel.color)
   }
   
@@ -121,18 +121,6 @@ extension ViewController: HueControllerDelegate {
 extension ViewController: BrightnessControllerDelegate {
   func didChange(brightness: CGFloat) {
     updateSwatch()
-  }
-  
-  func updateBrightness(from color: UIColor) {
-    // extract brightness from color
-    var brightness: CGFloat = 0
-    if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
-      print("failed to get brightness")
-      return
-    }
-    
-    // update the slider
-    slider.brightness = brightness
   }
 }
 

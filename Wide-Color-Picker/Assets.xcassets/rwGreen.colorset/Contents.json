@@ -7,7 +7,7 @@
     {
       "idiom" : "universal",
       "color" : {
-        "color-space" : "extended-srgb",
+        "color-space" : "srgb",
         "components" : {
           "red" : "0.000",
           "alpha" : "1.000",

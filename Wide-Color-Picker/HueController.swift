@@ -150,8 +150,20 @@ extension HueController {
   }
   
   private func positionFrom(color: UIColor) -> CGPoint {
-    var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0
-    color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
+    // extract hue from color
+    var hue: CGFloat = 0
+    if color.getHue(&hue, saturation: nil, brightness: nil, alpha: nil) == false {
+      // Color space was not compatible, so let's convert to extended SRGB,
+      // which is compatible
+      if let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB),
+        let convertedCGColor = color.cgColor.converted(to: colorSpace, intent: .defaultIntent, options: nil) {
+        let extendedSRGBColor = UIColor(cgColor: convertedCGColor)
+        // Try again with our extended SRGB color
+        if extendedSRGBColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil) == false {
+          print("Hue Controller failed to get hue")
+        }
+      }
+    }
     
     let angle = (1 - hue) * (2 * CGFloat.pi)
     

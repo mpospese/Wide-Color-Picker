@@ -65,6 +65,29 @@ class BrightnessController: UIViewController {
 // MARK: Color change
 
 extension BrightnessController {
+  
+  func updateBrightness(from color: UIColor) {
+    // extract brightness from color
+    var brightness: CGFloat = 0
+    if color.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
+      // Color space was not compatible, so let's convert to extended SRGB,
+      // which is compatible
+      guard let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB),
+        let convertedCGColor = color.cgColor.converted(to: colorSpace, intent: .defaultIntent, options: nil) else {
+          return
+      }
+      
+      let extendedSRGBColor = UIColor(cgColor: convertedCGColor)
+      // Try again with our extended SRGB color
+      if extendedSRGBColor.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil) == false {
+        print("Brightness Controller failed to get brightness")
+        return
+      }
+    }
+    
+    self.brightness = brightness
+  }
+
   func setColor(_ color: UIColor) {
     renderColor(color)
   }
