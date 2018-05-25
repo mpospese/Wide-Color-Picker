@@ -104,7 +104,7 @@ extension ViewController: HueControllerDelegate {
     
     switch gamut {
     case .displayP3:
-      // reassign the RGB values as Display P3 to get the brightess possible colors
+      // reassign the RGB values as Display P3 to get the brightest possible colors
       var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
       hueBrightnessColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
       finalColor = UIColor(displayP3Red: red, green: green, blue: blue, alpha: 1)
