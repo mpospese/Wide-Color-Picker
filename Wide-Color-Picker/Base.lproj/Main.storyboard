@@ -390,5 +390,5 @@
     <resources>
         <image name="Color_Wheel" width="326" height="326"/>
     </resources>
-    <color key="tintColor" name="rwGreen"/>
+    <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

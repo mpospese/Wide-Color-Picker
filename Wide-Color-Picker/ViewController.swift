@@ -49,9 +49,7 @@ class ViewController: UIViewController {
     
     selectGamut(traitCollection.displayGamut)
     
-    guard let defaultColor = UIColor(named: "rwGreen") else {
-      return
-    }
+    let defaultColor = UIColor.green
     
     colorWheel.setColor(defaultColor)
     swatch.setColor(defaultColor)
